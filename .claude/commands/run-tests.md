@@ -1,58 +1,118 @@
 ---
 name: run-tests
-description: Execute the auto-harness plugin meta-test suite
-arguments:
-  - name: category
-    description: Filter tests by category (e.g., smoke, commands, skills, agents)
-    required: false
-  - name: tag
-    description: Filter tests by tag (e.g., smoke, critical, plugin)
-    required: false
-  - name: reset
-    description: Reset test state and start fresh
-    required: false
+description: Run automated functional tests for auto-harness plugin. Execute the test suite to validate all plugin functionality including commands, skills, agents, and templates.
+argument-hint: "[--category <name>] [--tag <tag>] [--verbose] [--dry-run]"
+disable-model-invocation: true
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
-# Run auto-harness Meta-Test Suite
+# /run-tests
 
-Execute the automated test suite. All tests run automatically without manual intervention.
+Execute the automated auto-harness functional test suite to validate all plugin components.
 
-## Execute All Tests
+## Usage
 
-Run the complete test suite automatically:
-
-```bash
-./tests/functional/runner.sh reset && ./tests/functional/runner.sh init {{#if category}}--category {{category}}{{/if}} {{#if tag}}--tag {{tag}}{{/if}} > /dev/null
-
-for i in {1..20}; do
-  test_output=$(./tests/functional/runner.sh next 2>&1)
-  [[ "$test_output" == *"No more tests"* ]] && break
-  test_id=$(echo "$test_output" | grep -oP '(?<=: )[a-z_]+' | head -1)
-
-  case "$test_id" in
-    smoke_runner_executable) response=$(./tests/functional/runner.sh --help 2>&1) ;;
-    smoke_state_directory) response=$(ls -la .claude/ 2>&1) ;;
-    runner_state_file_exists) response=$(cat .claude/test-state.json | head -5 2>&1) ;;
-    runner_status_shows_progress) response=$(./tests/functional/runner.sh status 2>&1) ;;
-    runner_next_returns_test) response=$(./tests/functional/runner.sh next 2>&1) ;;
-    template_runner_valid) response=$(head -20 templates/runner/runner.sh 2>&1) ;;
-    template_hooks_valid) response=$(cat templates/hooks/hooks.json 2>&1) ;;
-    template_tests_yaml_valid) response=$(cat templates/tests/tests.yaml 2>&1) ;;
-    structure_plugin_manifest) response=$(cat .claude-plugin/plugin.json 2>&1) ;;
-    structure_commands_directory) response=$(ls commands/ 2>&1) ;;
-    structure_skills_directory) response=$(ls skills/ 2>&1) ;;
-    structure_agents_directory) response=$(ls agents/ 2>&1) ;;
-    meta_validate_pass) response="Validation passed" ;;
-    meta_state_json_valid) response=$(cat .claude/test-state.json 2>&1) ;;
-    meta_report_generation) response=$(./tests/functional/runner.sh status 2>&1) ;;
-    *) response="executed" ;;
-  esac
-
-  ./tests/functional/runner.sh validate "$response" 2>&1 | grep -E "^##"
-done
-
-echo ""
-./tests/functional/runner.sh report --format md
+```
+/run-tests [options]
 ```
 
-Display the final report showing pass/fail counts and any failures.
+### Options
+
+- `--category <name>` - Run only tests in specified category
+- `--tag <tag>` - Run only tests with specified tag
+- `--verbose` - Show detailed output for each test
+- `--dry-run` - Show tests that would run without executing
+
+## Execution Strategy
+
+<strategy>
+**Test Orchestration Flow:**
+
+1. Read test definitions from `tests/functional/tests.json`
+2. Initialize test state in `.claude/test-state.json`
+3. Execute tests sequentially, tracking results
+4. Validate each test response against expected patterns
+5. Generate summary report
+
+**State Management:**
+- State file tracks: current test, results, saved variables
+- Each test can save output values for dependent tests
+- Tests with `depends_on` wait for dependencies to pass
+</strategy>
+
+## Workflow
+
+<workflow>
+When invoked:
+
+### Phase 1: Initialization
+
+1. **Load Test Suite**
+   - Read `tests/functional/tests.json`
+   - Parse test definitions
+   - Filter by category/tag if specified
+
+2. **Initialize State**
+   Run: `./tests/functional/runner.sh reset && ./tests/functional/runner.sh init`
+
+3. **Show Test Plan**
+   Display total tests and categories to run
+
+### Phase 2: Test Execution Loop
+
+For each test, execute automatically without waiting for user input:
+
+1. **Get Next Test**
+   Run: `./tests/functional/runner.sh next`
+
+2. **Execute Test Action**
+   Parse the action from test output and execute it:
+   - If action starts with "Run:" - execute the bash command
+   - If action starts with "Check:" - cat/ls the target file
+   - Otherwise - execute as described
+
+3. **Validate Response**
+   Run: `./tests/functional/runner.sh validate "$response"`
+
+4. **Record and Continue**
+   Display pass/fail result and proceed to next test
+
+### Phase 3: Report Generation
+
+After all tests complete:
+
+Run: `./tests/functional/runner.sh report --format md`
+
+Display final summary with pass/fail counts.
+</workflow>
+
+## Categories
+
+| Category | Description |
+|----------|-------------|
+| smoke | Basic functionality verification |
+| runner | Test runner operations |
+| template | Template file validation |
+| structure | Plugin structure validation |
+| meta | Self-testing validation |
+
+## Test Format Reference
+
+<format>
+```json
+{
+  "id": "unique_test_id",
+  "description": "Human readable description",
+  "category": "category_name",
+  "action": "The exact action to execute",
+  "expect": [
+    {"contains": "string that must appear"},
+    {"not_contains": "string that must NOT appear"},
+    {"regex": "pattern.*to.*match"}
+  ],
+  "tags": ["tag1", "tag2"],
+  "save_as": "variable_name",
+  "depends_on": "other_test_id"
+}
+```
+</format>

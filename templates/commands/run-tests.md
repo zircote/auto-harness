@@ -1,62 +1,111 @@
 ---
 name: run-tests
-description: Execute the hook-driven test suite with optional filtering by category or tag
-arguments:
-  - name: category
-    description: Filter tests by category (e.g., crud, search, commands)
-    required: false
-  - name: tag
-    description: Filter tests by tag (e.g., smoke, critical, regression)
-    required: false
-  - name: reset
-    description: Reset test state and start fresh
-    required: false
+description: Run automated functional tests using the hook-driven test framework. Execute the test suite to validate all project functionality.
+argument-hint: "[--category <name>] [--tag <tag>] [--verbose] [--dry-run]"
+disable-model-invocation: true
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
-# Run Test Suite
+# /run-tests
 
-Execute the automated test suite. All tests run automatically without manual intervention.
+Execute the automated functional test suite to validate all project components.
 
-## Execute All Tests
+## Usage
 
-Run the complete test suite automatically:
-
-```bash
-./tests/functional/runner.sh reset && ./tests/functional/runner.sh init {{#if category}}--category {{category}}{{/if}} {{#if tag}}--tag {{tag}}{{/if}} > /dev/null
-
-# Read test definitions to build execution map
-test_file="tests/functional/tests.json"
-if [ -f "tests/functional/tests.yaml" ]; then
-  test_file="tests/functional/tests.yaml"
-fi
-
-for i in {1..50}; do
-  test_output=$(./tests/functional/runner.sh next 2>&1)
-  [[ "$test_output" == *"No more tests"* || "$test_output" == *"completed"* ]] && break
-
-  # Extract action from test output
-  action=$(echo "$test_output" | sed -n '/Action/,/^$/p' | tail -n +2 | head -5)
-
-  # Execute the action - this will vary based on test type
-  # For bash commands in action, execute them
-  if echo "$action" | grep -q "^Run:"; then
-    cmd=$(echo "$action" | sed 's/^Run: //' | head -1)
-    response=$(eval "$cmd" 2>&1)
-  elif echo "$action" | grep -q "^Check:"; then
-    target=$(echo "$action" | sed 's/^Check: //' | head -1)
-    response=$(cat "$target" 2>&1 || ls "$target" 2>&1)
-  else
-    response="Action executed successfully"
-  fi
-
-  ./tests/functional/runner.sh validate "$response" 2>&1 | grep -E "^##"
-done
-
-echo ""
-./tests/functional/runner.sh report --format md
+```
+/run-tests [options]
 ```
 
-Display the final report showing pass/fail counts and any failures.
+### Options
+
+- `--category <name>` - Run only tests in specified category
+- `--tag <tag>` - Run only tests with specified tag
+- `--verbose` - Show detailed output for each test
+- `--dry-run` - Show tests that would run without executing
+
+## Execution Strategy
+
+<strategy>
+**Test Orchestration Flow:**
+
+1. Read test definitions from `tests/functional/tests.json` (or `.yaml`)
+2. Initialize test state in `.claude/test-state.json`
+3. Execute tests sequentially, tracking results
+4. Validate each test response against expected patterns
+5. Generate summary report
+
+**State Management:**
+- State file tracks: current test, results, saved variables
+- Each test can save output values for dependent tests
+- Tests with `depends_on` wait for dependencies to pass
+</strategy>
+
+## Workflow
+
+<workflow>
+When invoked:
+
+### Phase 1: Initialization
+
+1. **Load Test Suite**
+   - Read `tests/functional/tests.json` (or `tests.yaml`)
+   - Parse test definitions
+   - Filter by category/tag if specified
+
+2. **Initialize State**
+   Run: `./tests/functional/runner.sh reset && ./tests/functional/runner.sh init`
+
+3. **Show Test Plan**
+   Display total tests and categories to run
+
+### Phase 2: Test Execution Loop
+
+For each test, execute automatically without waiting for user input:
+
+1. **Get Next Test**
+   Run: `./tests/functional/runner.sh next`
+
+2. **Execute Test Action**
+   Parse the action from test output and execute it:
+   - If action starts with "Run:" - execute the bash command
+   - If action starts with "Check:" - cat/ls the target file
+   - Otherwise - execute as described
+
+3. **Validate Response**
+   Run: `./tests/functional/runner.sh validate "$response"`
+
+4. **Record and Continue**
+   Display pass/fail result and proceed to next test
+
+### Phase 3: Report Generation
+
+After all tests complete:
+
+Run: `./tests/functional/runner.sh report --format md`
+
+Display final summary with pass/fail counts.
+</workflow>
+
+## Test Format Reference
+
+<format>
+```json
+{
+  "id": "unique_test_id",
+  "description": "Human readable description",
+  "category": "category_name",
+  "action": "The exact action to execute",
+  "expect": [
+    {"contains": "string that must appear"},
+    {"not_contains": "string that must NOT appear"},
+    {"regex": "pattern.*to.*match"}
+  ],
+  "tags": ["tag1", "tag2"],
+  "save_as": "variable_name",
+  "depends_on": "other_test_id"
+}
+```
+</format>
 
 ## Filtering Options
 
