@@ -1,6 +1,6 @@
 {
   "name": "auto-harness",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Automated hook-driven test framework generator for Claude Code projects. Scaffolds complete test infrastructure including commands, hooks, runner scripts, and test definitions into target projects.",
   "author": {
     "name": "zircote",
