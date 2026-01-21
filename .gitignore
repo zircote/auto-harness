@@ -1,0 +1,13 @@
+# Runtime state
+.claude/test-state.json
+
+# Test reports (generated)
+tests/functional/reports/
+
+# OS files
+.DS_Store
+
+# Editor files
+*.swp
+*.swo
+*~
