@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <linearGradient id="infoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fafafa"/>
+      <stop offset="100%" style="stop-color:#f1f5f9"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" rx="12" fill="url(#infoBg)"/>
+  <rect x="2" y="2" width="796" height="396" rx="10" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="system-ui, sans-serif" font-size="24" font-weight="700" fill="#1e293b" text-anchor="middle">
+    How auto-harness Works
+  </text>
+
+  <!-- Flow diagram -->
+  <!-- Step 1: Init -->
+  <g transform="translate(60, 90)">
+    <rect width="160" height="80" rx="8" fill="white" stroke="#e2e8f0" stroke-width="2"/>
+    <rect x="0" y="0" width="160" height="6" rx="3" fill="url(#purple)"/>
+    <text x="80" y="35" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#1e293b" text-anchor="middle">
+      1. /harness:init
+    </text>
+    <text x="80" y="55" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">
+      Scaffold test framework
+    </text>
+    <text x="80" y="70" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">
+      into your project
+    </text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <path d="M 230 130 L 280 130" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+
+  <!-- Step 2: Hook -->
+  <g transform="translate(290, 90)">
+    <rect width="160" height="80" rx="8" fill="white" stroke="#e2e8f0" stroke-width="2"/>
+    <rect x="0" y="0" width="160" height="6" rx="3" fill="#22c55e"/>
+    <text x="80" y="35" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#1e293b" text-anchor="middle">
+      2. Hook Intercepts
+    </text>
+    <text x="80" y="55" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">
+      UserPromptSubmit
+    </text>
+    <text x="80" y="70" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">
+      captures prompts
+    </text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <path d="M 460 130 L 510 130" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Step 3: Runner -->
+  <g transform="translate(520, 90)">
+    <rect width="160" height="80" rx="8" fill="white" stroke="#e2e8f0" stroke-width="2"/>
+    <rect x="0" y="0" width="160" height="6" rx="3" fill="#f59e0b"/>
+    <text x="80" y="35" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#1e293b" text-anchor="middle">
+      3. Runner Validates
+    </text>
+    <text x="80" y="55" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">
+      Check expectations
+    </text>
+    <text x="80" y="70" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">
+      contains, regex, etc.
+    </text>
+  </g>
+
+  <!-- Features row -->
+  <g transform="translate(60, 220)">
+    <!-- Feature 1 -->
+    <g>
+      <rect width="130" height="100" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+      <text x="65" y="30" font-family="system-ui, sans-serif" font-size="24" text-anchor="middle">📝</text>
+      <text x="65" y="55" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">
+        YAML/JSON Tests
+      </text>
+      <text x="65" y="75" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+        Human-readable
+      </text>
+      <text x="65" y="88" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+        test definitions
+      </text>
+    </g>
+
+    <!-- Feature 2 -->
+    <g transform="translate(150, 0)">
+      <rect width="130" height="100" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+      <text x="65" y="30" font-family="system-ui, sans-serif" font-size="24" text-anchor="middle">🔗</text>
+      <text x="65" y="55" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">
+        Variable Capture
+      </text>
+      <text x="65" y="75" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+        save_as + ${var}
+      </text>
+      <text x="65" y="88" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+        substitution
+      </text>
+    </g>
+
+    <!-- Feature 3 -->
+    <g transform="translate(300, 0)">
+      <rect width="130" height="100" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+      <text x="65" y="30" font-family="system-ui, sans-serif" font-size="24" text-anchor="middle">📊</text>
+      <text x="65" y="55" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">
+        Rich Reports
+      </text>
+      <text x="65" y="75" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+        Markdown & JSON
+      </text>
+      <text x="65" y="88" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+        output formats
+      </text>
+    </g>
+
+    <!-- Feature 4 -->
+    <g transform="translate(450, 0)">
+      <rect width="130" height="100" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+      <text x="65" y="30" font-family="system-ui, sans-serif" font-size="24" text-anchor="middle">🏷️</text>
+      <text x="65" y="55" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">
+        Test Filtering
+      </text>
+      <text x="65" y="75" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+        By category
+      </text>
+      <text x="65" y="88" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+        or tags
+      </text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <text x="400" y="370" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">
+    github.com/zircote/auto-harness
+  </text>
+</svg>

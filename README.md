@@ -1,5 +1,13 @@
 # auto-harness
 
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/zircote/auto-harness/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Claude Code Plugin](https://img.shields.io/badge/Claude_Code-Plugin-purple.svg)](https://docs.anthropic.com/en/docs/claude-code)
+
+<p align="center">
+  <img src=".github/readme-infographic.svg" alt="auto-harness workflow" width="800">
+</p>
+
 A Claude Code plugin that automates integration of hook-driven test framework patterns into any project. The plugin scaffolds complete test infrastructure directly into target projects, enabling automated testing of Claude Code plugins, MCP tools, commands, skills, and hooks.
 
 ## Overview
