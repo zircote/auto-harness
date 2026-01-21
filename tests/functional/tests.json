@@ -19,10 +19,7 @@
           "contains": "validate"
         }
       ],
-      "tags": [
-        "smoke",
-        "critical"
-      ]
+      "tags": ["smoke", "critical"]
     },
     {
       "id": "smoke_state_directory",
@@ -37,10 +34,7 @@
           "not_contains": "No such file"
         }
       ],
-      "tags": [
-        "smoke",
-        "state"
-      ]
+      "tags": ["smoke", "state"]
     },
     {
       "id": "runner_state_file_exists",
@@ -55,11 +49,7 @@
           "regex": "(running|total_tests)"
         }
       ],
-      "tags": [
-        "runner",
-        "init",
-        "critical"
-      ]
+      "tags": ["runner", "init", "critical"]
     },
     {
       "id": "runner_status_shows_progress",
@@ -74,10 +64,7 @@
           "regex": "[0-9]+"
         }
       ],
-      "tags": [
-        "runner",
-        "status"
-      ]
+      "tags": ["runner", "status"]
     },
     {
       "id": "runner_next_returns_test",
@@ -92,10 +79,7 @@
           "regex": "(Action|action|description)"
         }
       ],
-      "tags": [
-        "runner",
-        "next"
-      ]
+      "tags": ["runner", "next"]
     },
     {
       "id": "template_runner_valid",
@@ -110,10 +94,7 @@
           "not_contains": "0"
         }
       ],
-      "tags": [
-        "templates",
-        "runner"
-      ]
+      "tags": ["templates", "runner"]
     },
     {
       "id": "template_hooks_valid",
@@ -128,10 +109,7 @@
           "contains": "test-wrapper.sh"
         }
       ],
-      "tags": [
-        "templates",
-        "hooks"
-      ]
+      "tags": ["templates", "hooks"]
     },
     {
       "id": "template_tests_yaml_valid",
@@ -146,10 +124,7 @@
           "contains": "tests"
         }
       ],
-      "tags": [
-        "templates",
-        "tests"
-      ]
+      "tags": ["templates", "tests"]
     },
     {
       "id": "structure_plugin_manifest",
@@ -164,11 +139,7 @@
           "regex": "version=[0-9]"
         }
       ],
-      "tags": [
-        "structure",
-        "manifest",
-        "critical"
-      ]
+      "tags": ["structure", "manifest", "critical"]
     },
     {
       "id": "structure_commands_directory",
@@ -180,10 +151,7 @@
           "regex": "(init|validate|run-tests)"
         }
       ],
-      "tags": [
-        "structure",
-        "commands"
-      ]
+      "tags": ["structure", "commands"]
     },
     {
       "id": "structure_skills_directory",
@@ -195,10 +163,7 @@
           "regex": "(skill|.md|no skills)"
         }
       ],
-      "tags": [
-        "structure",
-        "skills"
-      ]
+      "tags": ["structure", "skills"]
     },
     {
       "id": "structure_agents_directory",
@@ -210,25 +175,7 @@
           "regex": "(agent|.md|no agents)"
         }
       ],
-      "tags": [
-        "structure",
-        "agents"
-      ]
-    },
-    {
-      "id": "meta_validate_pass",
-      "description": "Test that validate correctly identifies passing response",
-      "category": "meta",
-      "action": "Run: ./tests/functional/runner.sh validate \"This test passed successfully with init and next and validate\"\nReport the validation result.\n",
-      "expect": [
-        {
-          "regex": "(PASS|pass|success)"
-        }
-      ],
-      "tags": [
-        "meta",
-        "validate"
-      ]
+      "tags": ["structure", "agents"]
     },
     {
       "id": "meta_state_json_valid",
@@ -243,10 +190,19 @@
           "regex": "total=[0-9]+"
         }
       ],
-      "tags": [
-        "meta",
-        "state"
-      ]
+      "tags": ["meta", "state"]
+    },
+    {
+      "id": "meta_validate_pass",
+      "description": "Test that validate correctly identifies passing response (self-validates)",
+      "category": "meta",
+      "action": "Run: ./tests/functional/runner.sh validate \"This test passed successfully with init and next and validate\"\nReport the validation result.\n",
+      "expect": [
+        {
+          "regex": "(PASS|pass|success)"
+        }
+      ],
+      "tags": ["meta", "validate"]
     },
     {
       "id": "meta_report_generation",
@@ -261,10 +217,7 @@
           "regex": "(Passed|Failed|Summary)"
         }
       ],
-      "tags": [
-        "meta",
-        "report"
-      ]
+      "tags": ["meta", "report"]
     }
   ]
 }
