@@ -5,11 +5,30 @@ arguments:
   - name: project-path
     description: Path to target project (defaults to current directory)
     required: false
+allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 ---
 
 # Hook-Driven Test Framework Initialization
 
 This command scaffolds a complete automated test framework into the target project using the hook-driven testing pattern.
+
+## Pre-Init: Recall from Mnemonic
+
+Before initializing, check mnemonic for prior test framework setup learnings:
+
+```bash
+# Search for testing-related memories
+rg -i "test|harness|hook|framework|runner" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -10
+
+# Check patterns namespace for testing patterns
+rg -l "." ~/.claude/mnemonic/*/patterns/ --glob "*.memory.md" 2>/dev/null | xargs grep -l -i "test" 2>/dev/null | head -5
+```
+
+Apply recalled learnings:
+- Prior test framework configurations that worked well
+- Common pitfalls during initialization
+- User's preferred test formats (JSON vs YAML)
+- Successful hook patterns used before
 
 ## What Gets Generated
 
@@ -187,3 +206,64 @@ If any step fails:
 2. Suggest remediation steps
 3. Offer to retry or skip the problematic step
 4. Never leave the project in a broken state - rollback partial changes if needed
+
+---
+
+## Post-Init: Capture to Mnemonic
+
+After successful initialization, capture learnings to mnemonic:
+
+```bash
+# Check if similar insight exists
+rg -i "harness|test-framework|init" ~/.claude/mnemonic/ --glob "*.memory.md"
+
+# Capture novel configurations or insights
+UUID=$(uuidgen | tr '[:upper:]' '[:lower:]')
+DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+TITLE="Test Framework Init: {project-context}"
+SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | head -c 50)
+
+cat > ~/.claude/mnemonic/default/patterns/user/${UUID}-${SLUG}.memory.md << 'MEMORY'
+---
+id: ${UUID}
+type: procedural
+namespace: patterns/user
+created: ${DATE}
+modified: ${DATE}
+title: "${TITLE}"
+tags:
+  - auto-harness
+  - testing
+  - initialization
+temporal:
+  valid_from: ${DATE}
+  recorded_at: ${DATE}
+provenance:
+  source_type: harness-init
+  agent: claude-opus-4
+  confidence: 0.85
+---
+
+# Test Framework Configuration
+
+## Level 1: Quick Answer
+{One-line summary of the configuration}
+
+## Level 2: Context
+- Project type: {plugin/mcp/standalone}
+- Test format: {JSON/YAML}
+- Components tested: {list}
+- Special considerations: {any}
+
+## Level 3: Full Detail
+{Complete configuration details and rationale}
+MEMORY
+```
+
+### When to Capture
+
+Capture to mnemonic when:
+- A novel project structure required custom configuration
+- The user specified preferences that should be remembered
+- An issue was encountered and resolved during setup
+- A particularly effective test structure was established

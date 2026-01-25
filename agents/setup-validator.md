@@ -14,6 +14,23 @@ color: yellow
 
 Diagnose and fix issues with hook-driven test framework configurations.
 
+## Pre-Diagnosis: Recall from Mnemonic
+
+Before diagnosing, check mnemonic for prior fix patterns:
+
+```bash
+# Search for harness-related learnings
+rg -i "harness|hook|test-wrapper|runner" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -10
+
+# Check learnings for prior diagnostic sessions
+rg -l "." ~/.claude/mnemonic/*/learnings/ --glob "*.memory.md" 2>/dev/null | xargs grep -l -i "validation\|diagnostic" 2>/dev/null | head -5
+```
+
+Apply recalled patterns:
+- Known issues and their proven solutions
+- Configuration patterns that prevent problems
+- Common root causes to check first
+
 ## Core Capabilities
 
 1. **Configuration Validation**: Verify all configuration files are correct
@@ -242,3 +259,54 @@ After fixing issues, suggest:
 2. **Use /harness:validate**: Regular validation checks
 3. **Version lock dependencies**: Lock shell/Python versions
 4. **Document customizations**: Note any project-specific changes
+
+---
+
+## Post-Repair: Capture to Mnemonic
+
+After successfully diagnosing and fixing an issue, capture to mnemonic:
+
+```bash
+# Check if similar fix exists
+rg -i "{issue-type}" ~/.claude/mnemonic/ --glob "*.memory.md"
+
+# Capture the diagnostic insight
+UUID=$(uuidgen | tr '[:upper:]' '[:lower:]')
+DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+cat > ~/.claude/mnemonic/default/learnings/user/${UUID}-harness-fix.memory.md << 'MEMORY'
+---
+id: ${UUID}
+type: episodic
+namespace: learnings/user
+created: ${DATE}
+modified: ${DATE}
+title: "Harness Fix: {Issue Summary}"
+tags:
+  - auto-harness
+  - diagnostic
+  - fix
+temporal:
+  valid_from: ${DATE}
+  recorded_at: ${DATE}
+provenance:
+  source_type: diagnostic-session
+  agent: claude-opus-4
+  confidence: 0.85
+---
+
+# Diagnostic Finding
+
+## Symptom
+{What the user reported or what was observed}
+
+## Diagnosis
+{Root cause identified}
+
+## Fix Applied
+{Exact changes made}
+
+## Prevention
+{How to avoid this issue in future}
+MEMORY
+```

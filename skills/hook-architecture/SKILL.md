@@ -8,6 +8,20 @@ version: 1.0.0
 
 Understand the hook system that powers automated testing in Claude Code.
 
+## Mnemonic Integration
+
+Before explaining hook architecture, check mnemonic for prior learnings:
+
+```bash
+# Search for hook-related memories
+rg -i "hook|UserPromptSubmit|test-wrapper|prompt-interception" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -5
+```
+
+Apply recalled context:
+- Prior hook implementations that worked well
+- Common pitfalls with JSON escaping or state management
+- User's familiarity level with hook concepts
+
 ## Architecture Overview
 
 The hook-driven test framework transforms Claude Code's conversational interface into an automated test harness by intercepting user prompts and replacing them with test instructions.

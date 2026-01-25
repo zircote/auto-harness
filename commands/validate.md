@@ -8,11 +8,29 @@ arguments:
   - name: fix
     description: Attempt to automatically fix detected issues
     required: false
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 # Test Framework Validation
 
 This command validates an existing hook-driven test framework setup and optionally fixes detected issues.
+
+## Pre-Validation: Recall from Mnemonic
+
+Before validating, check mnemonic for prior validation insights:
+
+```bash
+# Search for validation-related memories
+rg -i "validation|harness|hook|test-framework" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -5
+
+# Check learnings namespace for prior issues
+rg -l "." ~/.claude/mnemonic/*/learnings/ --glob "*.memory.md" 2>/dev/null | xargs grep -l -i "harness\|hook" 2>/dev/null | head -5
+```
+
+Apply recalled insights:
+- Common validation failures and their root causes
+- Quick fixes that worked previously
+- Configuration patterns that prevent issues
 
 ## Validation Checks
 
@@ -196,3 +214,54 @@ Validation fails if:
 - Syntax errors in configuration
 - Invalid test definitions
 - Hook integration broken
+
+---
+
+## Post-Validation: Capture Learnings to Mnemonic
+
+If validation reveals novel issues or successful fixes, capture to mnemonic:
+
+```bash
+# Check if similar insight exists
+rg -i "{issue-type}" ~/.claude/mnemonic/ --glob "*.memory.md"
+
+# Capture novel validation learnings
+UUID=$(uuidgen | tr '[:upper:]' '[:lower:]')
+DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+cat > ~/.claude/mnemonic/default/learnings/user/${UUID}-harness-validation.memory.md << 'MEMORY'
+---
+id: ${UUID}
+type: episodic
+namespace: learnings/user
+created: ${DATE}
+modified: ${DATE}
+title: "Harness Validation: {Issue Type}"
+tags:
+  - auto-harness
+  - validation
+  - testing
+temporal:
+  valid_from: ${DATE}
+  recorded_at: ${DATE}
+provenance:
+  source_type: validation-session
+  agent: claude-opus-4
+  confidence: 0.8
+---
+
+# Validation Learning
+
+## Issue Identified
+{Description of the validation issue}
+
+## Root Cause
+{Why this occurred}
+
+## Resolution
+{How it was fixed}
+
+## Prevention
+{How to avoid this in future setups}
+MEMORY
+```

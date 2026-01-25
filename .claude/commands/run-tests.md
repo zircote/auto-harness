@@ -10,6 +10,20 @@ allowed-tools: Read, Write, Bash, Glob, Grep
 
 Execute the automated auto-harness functional test suite to validate all plugin components.
 
+## Pre-Run: Recall from Mnemonic
+
+Before running tests, check mnemonic for test execution insights:
+
+```bash
+# Search for test run memories
+rg -i "test-run|execution|flaky|timeout" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -5
+```
+
+Apply recalled insights:
+- Known flaky tests to watch
+- Execution patterns that work well
+- Previous test run issues and resolutions
+
 ## Usage
 
 ```

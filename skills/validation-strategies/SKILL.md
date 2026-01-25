@@ -8,6 +8,24 @@ version: 1.0.0
 
 Choose and implement effective validation strategies for hook-driven tests.
 
+## Mnemonic Integration
+
+Before advising on validation, check mnemonic for insights:
+
+```bash
+# Search for validation-related memories
+rg -i "validation|assertion|regex|contains|flaky" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -5
+
+# Check learnings for validation experiences
+rg -l "." ~/.claude/mnemonic/*/learnings/ --glob "*.memory.md" 2>/dev/null | xargs grep -l -i "validation\|expect" 2>/dev/null | head -5
+```
+
+Apply recalled insights:
+- Validation approaches that worked well
+- Flaky test patterns to avoid
+- Regex patterns that proved reliable
+- User's preferred validation strategies
+
 ## Validation Approaches
 
 ### String Matching (`contains`)

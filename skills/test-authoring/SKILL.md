@@ -8,6 +8,24 @@ version: 1.0.0
 
 Write effective test definitions for the hook-driven automated test framework.
 
+## Mnemonic Integration
+
+Before authoring tests, check mnemonic for test patterns:
+
+```bash
+# Search for test authoring memories
+rg -i "test|expectation|contains|regex|depends_on" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -5
+
+# Check patterns namespace
+rg -l "." ~/.claude/mnemonic/*/patterns/ --glob "*.memory.md" 2>/dev/null | xargs grep -l -i "test" 2>/dev/null | head -5
+```
+
+Apply recalled patterns:
+- Effective expectation strategies
+- Variable capture patterns that worked
+- Test organization preferences
+- Common ID naming conventions used
+
 ## Test Definition Schema
 
 Every test requires these fields:
