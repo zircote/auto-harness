@@ -1,8 +1,25 @@
 ---
+allowed-tools:
+- Bash
+- Glob
+- Grep
+- Read
+- Write
+description: This skill should be used when the user asks about "how hooks work",
+  "UserPromptSubmit", "hook-driven testing", "test wrapper", "prompt interception",
+  "hook JSON format", "state management", or needs to understand the architecture
+  of hook-driven automated testing.
 name: Hook Architecture
-description: This skill should be used when the user asks about "how hooks work", "UserPromptSubmit", "hook-driven testing", "test wrapper", "prompt interception", "hook JSON format", "state management", or needs to understand the architecture of hook-driven automated testing.
 version: 1.0.0
 ---
+<!-- BEGIN MNEMONIC PROTOCOL -->
+## Memory
+
+Search first: `/mnemonic:search {relevant_keywords}`
+Capture after: `/mnemonic:capture {namespace} "{title}"`
+
+Run `/mnemonic:list --namespaces` to see available namespaces from loaded ontologies.
+<!-- END MNEMONIC PROTOCOL -->
 
 # Hook-Driven Test Architecture
 
@@ -14,7 +31,7 @@ Before explaining hook architecture, check mnemonic for prior learnings:
 
 ```bash
 # Search for hook-related memories
-rg -i "hook|UserPromptSubmit|test-wrapper|prompt-interception" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -5
+rg -i "hook|UserPromptSubmit|test-wrapper|prompt-interception" ~/.claude/mnemonic/ ./.claude/mnemonic/ --glob "*.memory.md" -l | head -5
 ```
 
 Apply recalled context:

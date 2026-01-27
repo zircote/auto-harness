@@ -1,37 +1,38 @@
 ---
-name: test-generator
-description: "Proactive test generation agent for hook-driven test frameworks. Use PROACTIVELY when the user creates new MCP tools, commands, skills, or hooks that should have test coverage. Analyzes component implementations to generate comprehensive test definitions with appropriate expectations."
-whenToUse: "This agent should be used when the user asks to 'generate tests', 'add test coverage', 'create test cases', writes a new MCP tool/command/skill/hook, or when test coverage gaps are detected."
-tools:
-  - Read
-  - Write
-  - Glob
-  - Grep
-  - Bash
+allowed-tools:
+- Bash
+- Glob
+- Grep
+- Read
+- Write
 color: green
+description: Proactive test generation agent for hook-driven test frameworks. Use
+  PROACTIVELY when the user creates new MCP tools, commands, skills, or hooks that
+  should have test coverage. Analyzes component implementations to generate comprehensive
+  test definitions with appropriate expectations.
+name: test-generator
+tools:
+- Read
+- Write
+- Glob
+- Grep
+- Bash
+whenToUse: This agent should be used when the user asks to 'generate tests', 'add
+  test coverage', 'create test cases', writes a new MCP tool/command/skill/hook, or
+  when test coverage gaps are detected.
 ---
-
 # Test Generator Agent
 
 Generate comprehensive test definitions for Claude Code plugin components using the hook-driven testing pattern.
 
-## Pre-Generation: Recall from Mnemonic
+<!-- BEGIN MNEMONIC PROTOCOL -->
+## Memory
 
-Before generating tests, check mnemonic for test patterns and learnings:
+Search first: `/mnemonic:search {relevant_keywords}`
+Capture after: `/mnemonic:capture {namespace} "{title}"`
 
-```bash
-# Search for testing-related memories
-rg -i "test|expectation|validation|pattern" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -10
-
-# Check patterns namespace for test patterns
-rg -l "." ~/.claude/mnemonic/*/patterns/ --glob "*.memory.md" 2>/dev/null | xargs grep -l -i "test" 2>/dev/null | head -5
-```
-
-Apply recalled patterns:
-- Effective test structures used previously
-- Expectation patterns that work well
-- Common test coverage strategies
-- User's preferred test organization
+Run `/mnemonic:list --namespaces` to see available namespaces from loaded ontologies.
+<!-- END MNEMONIC PROTOCOL -->
 
 ## Core Capabilities
 
@@ -220,60 +221,3 @@ When generating tests:
 4. Update test count metadata if present
 5. Validate generated tests compile (regex patterns valid, JSON/YAML valid)
 
----
-
-## Post-Generation: Capture to Mnemonic
-
-After generating effective tests, capture reusable patterns to mnemonic:
-
-```bash
-# Check if similar pattern exists
-rg -i "{component-type}" ~/.claude/mnemonic/ --glob "*.memory.md"
-
-# Capture novel test patterns
-UUID=$(uuidgen | tr '[:upper:]' '[:lower:]')
-DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
-cat > ~/.claude/mnemonic/default/patterns/user/${UUID}-test-pattern.memory.md << 'MEMORY'
----
-id: ${UUID}
-type: procedural
-namespace: patterns/user
-created: ${DATE}
-modified: ${DATE}
-title: "Test Pattern: {Component Type}"
-tags:
-  - auto-harness
-  - testing
-  - pattern
-temporal:
-  valid_from: ${DATE}
-  recorded_at: ${DATE}
-provenance:
-  source_type: test-generation
-  agent: claude-opus-4
-  confidence: 0.85
----
-
-# Test Pattern
-
-## Level 1: Quick Answer
-{One-line summary of the test pattern}
-
-## Level 2: Context
-- Component type: {mcp-tool/command/skill/hook}
-- Coverage strategy: {smoke/crud/integration}
-- Key expectations: {list}
-
-## Level 3: Full Detail
-{Complete test pattern with examples}
-MEMORY
-```
-
-### When to Capture
-
-Capture to mnemonic when:
-- A novel test pattern proved effective
-- A complex component required creative testing approach
-- Regex patterns were particularly reusable
-- Test organization worked well for similar components

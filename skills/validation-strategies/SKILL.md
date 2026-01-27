@@ -1,8 +1,25 @@
 ---
+allowed-tools:
+- Bash
+- Glob
+- Grep
+- Read
+- Write
+description: This skill should be used when the user asks about "test validation",
+  "assertion strategies", "regex vs contains", "handling flaky tests", "validation
+  failures", "expected vs actual", or needs guidance on choosing validation approaches
+  and handling edge cases.
 name: Validation Strategies
-description: This skill should be used when the user asks about "test validation", "assertion strategies", "regex vs contains", "handling flaky tests", "validation failures", "expected vs actual", or needs guidance on choosing validation approaches and handling edge cases.
 version: 1.0.0
 ---
+<!-- BEGIN MNEMONIC PROTOCOL -->
+## Memory
+
+Search first: `/mnemonic:search {relevant_keywords}`
+Capture after: `/mnemonic:capture {namespace} "{title}"`
+
+Run `/mnemonic:list --namespaces` to see available namespaces from loaded ontologies.
+<!-- END MNEMONIC PROTOCOL -->
 
 # Validation Strategies
 
@@ -14,7 +31,7 @@ Before advising on validation, check mnemonic for insights:
 
 ```bash
 # Search for validation-related memories
-rg -i "validation|assertion|regex|contains|flaky" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -5
+rg -i "validation|assertion|regex|contains|flaky" ~/.claude/mnemonic/ ./.claude/mnemonic/ --glob "*.memory.md" -l | head -5
 
 # Check learnings for validation experiences
 rg -l "." ~/.claude/mnemonic/*/learnings/ --glob "*.memory.md" 2>/dev/null | xargs grep -l -i "validation\|expect" 2>/dev/null | head -5

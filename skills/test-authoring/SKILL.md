@@ -1,8 +1,25 @@
 ---
+allowed-tools:
+- Bash
+- Glob
+- Grep
+- Read
+- Write
+description: This skill should be used when the user asks to "write a test", "create
+  test cases", "add test coverage", "define test expectations", "use contains vs regex",
+  "chain dependent tests", or needs guidance on test definition schema, expectation
+  types, variable capture, or test organization best practices.
 name: Test Authoring
-description: This skill should be used when the user asks to "write a test", "create test cases", "add test coverage", "define test expectations", "use contains vs regex", "chain dependent tests", or needs guidance on test definition schema, expectation types, variable capture, or test organization best practices.
 version: 1.0.0
 ---
+<!-- BEGIN MNEMONIC PROTOCOL -->
+## Memory
+
+Search first: `/mnemonic:search {relevant_keywords}`
+Capture after: `/mnemonic:capture {namespace} "{title}"`
+
+Run `/mnemonic:list --namespaces` to see available namespaces from loaded ontologies.
+<!-- END MNEMONIC PROTOCOL -->
 
 # Test Authoring for Hook-Driven Frameworks
 
@@ -14,7 +31,7 @@ Before authoring tests, check mnemonic for test patterns:
 
 ```bash
 # Search for test authoring memories
-rg -i "test|expectation|contains|regex|depends_on" ~/.claude/mnemonic/ --glob "*.memory.md" -l | head -5
+rg -i "test|expectation|contains|regex|depends_on" ~/.claude/mnemonic/ ./.claude/mnemonic/ --glob "*.memory.md" -l | head -5
 
 # Check patterns namespace
 rg -l "." ~/.claude/mnemonic/*/patterns/ --glob "*.memory.md" 2>/dev/null | xargs grep -l -i "test" 2>/dev/null | head -5
