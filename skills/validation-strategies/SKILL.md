@@ -9,7 +9,7 @@ description: This skill should be used when the user asks about "test validation
   "assertion strategies", "regex vs contains", "handling flaky tests", "validation
   failures", "expected vs actual", or needs guidance on choosing validation approaches
   and handling edge cases.
-name: Validation Strategies
+name: validation-strategies
 version: 1.0.0
 ---
 <!-- BEGIN MNEMONIC PROTOCOL -->
