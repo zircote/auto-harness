@@ -9,7 +9,7 @@ description: This skill should be used when the user asks to "write a test", "cr
   test cases", "add test coverage", "define test expectations", "use contains vs regex",
   "chain dependent tests", or needs guidance on test definition schema, expectation
   types, variable capture, or test organization best practices.
-name: test-authoring
+name: Test Authoring
 version: 1.0.0
 ---
 <!-- BEGIN MNEMONIC PROTOCOL -->
