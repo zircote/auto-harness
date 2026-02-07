@@ -6,7 +6,7 @@ arguments:
   required: false
 description: Initialize hook-driven test framework in a project. Guides through configuration
   and generates complete test infrastructure.
-name: init
+name: harness:init
 ---
 # Hook-Driven Test Framework Initialization
 
