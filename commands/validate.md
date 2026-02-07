@@ -9,7 +9,7 @@ arguments:
   required: false
 description: Validate an existing hook-driven test framework setup. Checks configuration,
   tests syntax, and hook integration.
-name: harness:validate
+name: validate
 ---
 # Test Framework Validation
 
