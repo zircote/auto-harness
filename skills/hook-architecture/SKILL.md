@@ -9,7 +9,7 @@ description: This skill should be used when the user asks about "how hooks work"
   "UserPromptSubmit", "hook-driven testing", "test wrapper", "prompt interception",
   "hook JSON format", "state management", or needs to understand the architecture
   of hook-driven automated testing.
-name: hook-architecture
+name: Hook Architecture
 version: 1.0.0
 ---
 <!-- BEGIN MNEMONIC PROTOCOL -->
